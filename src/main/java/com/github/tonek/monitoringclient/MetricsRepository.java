@@ -157,7 +157,7 @@ public class MetricsRepository {
             }
             arguments.add(new ArgumentInfo(argumentName));
         }
-        methodInfo = new MethodInfo((Class<Metric>) method.getReturnType(), metricName, metricGroupName, arguments);
+        methodInfo = new MethodInfo(method.getReturnType(), metricName, metricGroupName, arguments);
         methodInfos.put(method, methodInfo);
         return methodInfo;
     }

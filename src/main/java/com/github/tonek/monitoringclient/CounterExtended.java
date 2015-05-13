@@ -15,4 +15,9 @@ class CounterExtended extends Counter {
     public FullMetricKey getMetricKey() {
         return metricKey;
     }
+
+    @Override
+    public String toString() {
+        return "CounterExtended{metricKey=" + metricKey + '}';
+    }
 }

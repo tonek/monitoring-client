@@ -50,4 +50,13 @@ class FullMetricKey {
         result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FullMetricKey{" +
+                "groupName='" + groupName + '\'' +
+                ", name='" + name + '\'' +
+                ", arguments=" + arguments +
+                '}';
+    }
 }

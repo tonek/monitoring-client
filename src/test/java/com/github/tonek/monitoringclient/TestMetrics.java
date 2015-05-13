@@ -50,6 +50,7 @@ public class TestMetrics {
             context.stop();
 
             Thread.sleep(random.nextInt(200));
+            break;
         }
 
     }
