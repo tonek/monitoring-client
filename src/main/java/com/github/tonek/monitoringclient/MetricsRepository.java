@@ -1,9 +1,11 @@
 package com.github.tonek.monitoringclient;
 
 
-import com.codahale.metrics.*;
+import com.codahale.metrics.Counter;
 import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 
 import java.lang.annotation.Annotation;
@@ -36,8 +38,9 @@ public class MetricsRepository {
             proxies.put(clazz, proxy);
         }
 
-        InfluxDbReporter reporter = new InfluxDbReporter(metricRegistry);
-        reporter.start(10, TimeUnit.MILLISECONDS);
+        RestReporter reporter = new RestReporter(
+                metricRegistry, new ObjectMapper(), new RestReporter.Config("test_pr", "localhost", 8080));
+        reporter.start(500, TimeUnit.MILLISECONDS);
 
         metricsProxies = Collections.unmodifiableMap(proxies);
 

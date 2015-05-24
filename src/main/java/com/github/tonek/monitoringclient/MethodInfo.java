@@ -1,7 +1,5 @@
 package com.github.tonek.monitoringclient;
 
-import checkers.nullness.quals.NonNull;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -9,7 +7,6 @@ class MethodInfo {
     private final Class<?> metricType;
     private final String metricName;
     private final String metricGroupName;
-    @NonNull
     private final List<ArgumentInfo> argumentInfos;
 
     public MethodInfo(Class<?> metricType, String metricName, String metricGroupName,
@@ -33,7 +30,6 @@ class MethodInfo {
         return metricGroupName;
     }
 
-    @NonNull
     public List<ArgumentInfo> getArgumentInfos() {
         return argumentInfos;
     }

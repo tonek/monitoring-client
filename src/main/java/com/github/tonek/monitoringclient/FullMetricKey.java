@@ -1,14 +1,11 @@
 package com.github.tonek.monitoringclient;
 
-import checkers.nullness.quals.NonNull;
-
 import java.util.Collections;
 import java.util.Map;
 
 class FullMetricKey {
     private final String groupName;
     private final String name;
-    @NonNull
     private final Map<String, Object> arguments;
 
     public FullMetricKey(String groupName, String name, Map<String, Object> arguments) {
@@ -16,6 +13,14 @@ class FullMetricKey {
         this.name = name;
         this.arguments = arguments == null
                 ? Collections.<String, Object>emptyMap() : Collections.unmodifiableMap(arguments);
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String toIdString() {

@@ -49,8 +49,7 @@ public class TestMetrics {
             Thread.sleep(random.nextInt(50));
             context.stop();
 
-            Thread.sleep(random.nextInt(200));
-            break;
+            Thread.sleep(random.nextInt(500));
         }
 
     }
