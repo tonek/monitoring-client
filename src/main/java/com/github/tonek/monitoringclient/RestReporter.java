@@ -110,7 +110,7 @@ public class RestReporter extends ScheduledReporter {
         ReportedMetrics request = new ReportedMetrics(metrics);
         try {
             String json = objectMapper.writeValueAsString(request);
-            String url = String.format("http://%s:%s/v1/metrics", config.getReportingHost(), config.getReportingPort());
+            String url = String.format("http://%s:%s/api/v1/metrics", config.getReportingHost(), config.getReportingPort());
 
             log.debug("Sending metrics {} to {}.", request, url);
 
