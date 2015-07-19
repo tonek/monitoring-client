@@ -14,7 +14,8 @@ public class TestMetrics {
 
     @Before
     public void setUp() {
-        MetricsRepository repository = new MetricsRepository(SheepMetrics.class);
+        MetricsWrapperFactory factory = new DynamicProxyMetricsWrapperFactory();
+        MetricsRepository repository = new MetricsRepository(factory, SheepMetrics.class);
         sheepMetrics = repository.get(SheepMetrics.class);
     }
 
