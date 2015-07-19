@@ -6,7 +6,7 @@ import com.codahale.metrics.Timer;
 @MetricsGroup("Sheep metrics")
 public interface SheepMetrics {
 
-    @Metric(description = "How many sheeps we saw")
+    @Metric(description = "How many sheep we saw")
     Counter sheepSeen(@MetricArgument("color") String color, @MetricArgument("age") int age);
     Counter sheepSeen(@MetricArgument("age") int age);
     Counter sheepSeen(@MetricArgument("color") String color);
