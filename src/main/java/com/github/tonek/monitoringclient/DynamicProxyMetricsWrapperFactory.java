@@ -1,12 +1,8 @@
 package com.github.tonek.monitoringclient;
 
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +21,13 @@ public class DynamicProxyMetricsWrapperFactory implements MetricsWrapperFactory 
         private final String metricsGroupName;
         private final MetricsHolder metricsHolder;
         private final ConcurrentHashMap<Method, MethodInfo> methodInfos;
+        private final MetricsInfoExtractor metricsInfoExtractor;
 
         public MetricsInvocationHandler(Class<?> metricsGroupClass, MetricsHolder metricsHolder) {
             this.metricsHolder = metricsHolder;
             methodInfos = new ConcurrentHashMap<Method, MethodInfo>();
-            metricsGroupName = getMetricsGroupName(metricsGroupClass);
+            metricsInfoExtractor = new MetricsInfoExtractor();
+            metricsGroupName = metricsInfoExtractor.getMetricsGroupName(metricsGroupClass);
         }
 
         @Override
@@ -55,47 +53,13 @@ public class DynamicProxyMetricsWrapperFactory implements MetricsWrapperFactory 
             return metricsHolder.getMetric(metricType, metricsGroupName, methodName, parametersMap);
         }
 
-        private String getMetricsGroupName(Class<?> metricsGroupClass) {
-            String metricsGroupName;MetricsGroup metricsGroup = metricsGroupClass.getAnnotation(MetricsGroup.class);
-            if (metricsGroup == null || metricsGroup.value() == null || metricsGroup.value().trim().isEmpty()) {
-                metricsGroupName = metricsGroupClass.getSimpleName();
-            } else {
-                metricsGroupName = metricsGroup.value();
-            }
-            return metricsGroupName;
-        }
-
         @SuppressWarnings("unchecked")
         private MethodInfo getMethodInfo(Method method, String metricGroupName) {
             MethodInfo methodInfo = methodInfos.get(method);
             if (methodInfo != null) {
                 return methodInfo;
             }
-            String metricName = method.getName();
-            com.github.tonek.monitoringclient.Metric metricAnnotation
-                    = method.getAnnotation(com.github.tonek.monitoringclient.Metric.class);
-            if (metricAnnotation != null && metricAnnotation.id() != null && !metricAnnotation.id().trim().isEmpty()) {
-                metricName = metricAnnotation.id();
-            }
-            String[] parameterNames = new LocalVariableTableParameterNameDiscoverer().getParameterNames(method);
-            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-            List<ArgumentInfo> arguments = new ArrayList<ArgumentInfo>(parameterAnnotations.length);
-            for (int i = 0; i < parameterAnnotations.length; i++) {
-                String argumentName = parameterNames == null ? null : parameterNames[i];
-                Annotation[] annotations = parameterAnnotations[i];
-                if (annotations != null) {
-                    for (Annotation annotation : annotations) {
-                        if (annotation.annotationType() == MetricArgument.class) {
-                            MetricArgument metricsArg = (MetricArgument) annotation;
-                            if (metricsArg.value() != null && !metricsArg.value().trim().isEmpty()) {
-                                argumentName = metricsArg.value();
-                            }
-                        }
-                    }
-                }
-                arguments.add(new ArgumentInfo(argumentName));
-            }
-            methodInfo = new MethodInfo(method.getReturnType(), metricName, metricGroupName, arguments);
+            methodInfo = metricsInfoExtractor.getMethodInfo(method, metricGroupName);
             methodInfos.put(method, methodInfo);
             return methodInfo;
         }
