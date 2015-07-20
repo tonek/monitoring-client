@@ -1,2 +1,3 @@
-rootProject.name = 'monitoring-client'
+include 'client'
+include 'benchmark'
 

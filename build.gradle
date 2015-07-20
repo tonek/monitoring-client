@@ -1,5 +1,9 @@
+plugins {
+    id 'me.champeau.gradle.jmh' version '0.2.0'
+}
+
 allprojects {
-    group = "com.tonek.monitoringclient"
+    group = "org.tonek.monitoringclient"
 
     apply plugin: "java"
 
@@ -28,12 +32,6 @@ allprojects {
     version = '1.0'
 
     dependencies {
-        compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.0'
-        compile 'org.ow2.asm:asm:5.0.3'
-        compile 'org.springframework:spring-core:4.1.6.RELEASE'
-        compile "org.apache.httpcomponents:httpclient:${httpClientVersion}"
-        compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-        compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
         compile "org.slf4j:slf4j-api:${slf4jVersion}"
 
         testCompile("ch.qos.logback:logback-classic:${logbackVersion}") {
@@ -44,6 +42,35 @@ allprojects {
         }
         testCompile 'org.assertj:assertj-core:3.0.0'
         testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+}
+
+project("client") {
+    description = "Monitoring client"
+
+    dependencies {
+        compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.0'
+        compile 'org.ow2.asm:asm:5.0.3'
+        compile 'net.bytebuddy:byte-buddy:0.6.13'
+        compile 'org.springframework:spring-core:4.1.6.RELEASE'
+        compile "org.apache.httpcomponents:httpclient:${httpClientVersion}"
+        compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+        compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    }
+}
+
+project("benchmark") {
+    apply plugin: 'me.champeau.gradle.jmh'
+
+    jmh {
+        jmhVersion = '1.10.2'
+    }
+
+    dependencies {
+        compile project(':client')
+        compile "org.openjdk.jmh:jmh-core:1.10.2"
+        compile "org.openjdk.jmh:jmh-generator-annprocess:1.10.2"
+        jmh project(':client')
     }
 }
 
