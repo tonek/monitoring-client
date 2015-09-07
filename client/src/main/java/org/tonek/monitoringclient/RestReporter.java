@@ -48,7 +48,7 @@ public class RestReporter extends ScheduledReporter {
         this.objectMapper = objectMapper;
         this.config = config;
 
-        log.debug("ResReporter is created with config {}.", config);
+        log.debug("RestReporter is created with config {}.", config);
     }
 
     @Override

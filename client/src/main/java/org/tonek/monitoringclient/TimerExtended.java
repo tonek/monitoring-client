@@ -12,4 +12,9 @@ class TimerExtended extends Timer {
     public FullMetricKey getMetricKey() {
         return metricKey;
     }
+
+    @Override
+    public String toString() {
+        return "TimerExtended{metricKey=" + metricKey + '}';
+    }
 }

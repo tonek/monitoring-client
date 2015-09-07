@@ -31,9 +31,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
-@Fork(2)
-@Warmup(iterations = 5, time = 500, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 5, time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Warmup(time = 500, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(time = 500, timeUnit = TimeUnit.MILLISECONDS)
 @CompilerControl(CompilerControl.Mode.DONT_INLINE)
 public class InterfaceImplementationBenchmark {
     private TestInterface intercepted;

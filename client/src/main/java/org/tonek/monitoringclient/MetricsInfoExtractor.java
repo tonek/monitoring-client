@@ -12,8 +12,7 @@ import java.util.Map;
 class MetricsInfoExtractor {
     MethodInfo getMethodInfo(Method method, String metricGroupName) {
         String metricName = method.getName();
-        Metric metricAnnotation
-                = method.getAnnotation(Metric.class);
+        Metric metricAnnotation = method.getAnnotation(Metric.class);
         if (metricAnnotation != null && metricAnnotation.id() != null && !metricAnnotation.id().trim().isEmpty()) {
             metricName = metricAnnotation.id();
         }

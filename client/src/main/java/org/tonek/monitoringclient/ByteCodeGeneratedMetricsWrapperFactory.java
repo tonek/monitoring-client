@@ -13,10 +13,10 @@ import net.bytebuddy.matcher.BooleanMatcher;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GeneratedMetricsWrapperFactory implements MetricsWrapperFactory {
+public class ByteCodeGeneratedMetricsWrapperFactory implements MetricsWrapperFactory {
     private final MetricsInfoExtractor metricsInfoExtractor;
 
-    public GeneratedMetricsWrapperFactory(MetricsInfoExtractor metricsInfoExtractor) {
+    public ByteCodeGeneratedMetricsWrapperFactory(MetricsInfoExtractor metricsInfoExtractor) {
         this.metricsInfoExtractor = metricsInfoExtractor;
     }
 
